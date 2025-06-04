@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="it">
+<!DOCTYPE html><html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,48 +50,47 @@
 <div class="container">
     <h2>💰 Calcolo Detrazioni Edilizie 2025–2027</h2>
     <label for="reddito">Reddito complessivo (€):</label>
-    <input type="number" id="reddito" min="0">
+    <input type="number" id="reddito" min="0"><label for="figli">Numero di figli fiscalmente a carico:</label>
+<select id="figli">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3 o più</option>
+</select>
 
-    <label for="figli">Numero di figli fiscalmente a carico:</label>
-    <select id="figli">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3 o più</option>
-    </select>
+<label for="disabilita">Presenza figli con disabilità?</label>
+<select id="disabilita">
+    <option value="no">No</option>
+    <option value="si">Sì</option>
+</select>
 
-    <label for="disabilita">Presenza figli con disabilità?</label>
-    <select id="disabilita">
-        <option value="no">No</option>
-        <option value="si">Sì</option>
-    </select>
+<label for="abitazione">Tipo di immobile:</label>
+<select id="abitazione">
+    <option value="principale">Abitazione principale</option>
+    <option value="secondaria">Altra unità immobiliare</option>
+</select>
 
-    <label for="abitazione">Tipo di immobile:</label>
-    <select id="abitazione">
-        <option value="principale">Abitazione principale</option>
-        <option value="secondaria">Altra unità immobiliare</option>
-    </select>
+<label for="tipologia">Tipologia detrazione:</label>
+<select id="tipologia">
+    <option value="bonusCasa">Bonus Casa</option>
+    <option value="ecobonus">Ecobonus</option>
+    <option value="sismabonus">Sisma Bonus</option>
+    <option value="superbonus">Superbonus</option>
+</select>
 
-    <label for="tipologia">Tipologia detrazione:</label>
-    <select id="tipologia">
-        <option value="bonusCasa">Bonus Casa</option>
-        <option value="ecobonus">Ecobonus</option>
-        <option value="sismabonus">Sisma Bonus</option>
-        <option value="superbonus">Superbonus</option>
-    </select>
+<label for="anno">Anno sostenimento spesa:</label>
+<select id="anno">
+    <option value="2025">2025</option>
+    <option value="2026">2026</option>
+    <option value="2027">2027</option>
+</select>
 
-    <label for="anno">Anno sostenimento spesa:</label>
-    <select id="anno">
-        <option value="2025">2025</option>
-        <option value="2026">2026</option>
-        <option value="2027">2027</option>
-    </select>
+<label><input type="checkbox" id="art15"> La detrazione rientra tra quelle dell'art. 15 TUIR (es. spese scolastiche, funebri, veterinarie)</label>
 
-    <button onclick="calcolaDetrazione()">Calcola</button>
-    <div class="output" id="risultato"></div>
-</div>
+<button onclick="calcolaDetrazione()">Calcola</button>
+<div class="output" id="risultato"></div>
 
-<script>
+</div><script>
 function calcolaDetrazione() {
     const reddito = parseFloat(document.getElementById("reddito").value);
     const figli = parseInt(document.getElementById("figli").value);
@@ -100,6 +98,7 @@ function calcolaDetrazione() {
     const abitazione = document.getElementById("abitazione").value;
     const tipologia = document.getElementById("tipologia").value;
     const anno = parseInt(document.getElementById("anno").value);
+    const isArt15 = document.getElementById("art15").checked;
 
     let output = "";
 
@@ -134,14 +133,19 @@ function calcolaDetrazione() {
     if (aliquota === 0.00) {
         output += `🚫 Nessuna aliquota disponibile per Superbonus nel ${anno}.`;
     } else {
+        let aliquotaEffettiva = aliquota;
+        if (isArt15 && reddito > 120000 && reddito <= 240000) {
+            const riduzione = 1 - ((reddito - 120000) / 120000);
+            aliquotaEffettiva = aliquota * riduzione;
+            output += `<br>🔻 Riduzione per reddito >120.000€ su spese art. 15 TUIR: <strong>${(aliquotaEffettiva * 100).toFixed(1)}%</strong>`;
+        }
         output += `🔧 Tipologia: <strong>${tipologia}</strong><br>`;
         output += `🏠 Immobile: <strong>${abitazione === "principale" ? "Abitazione principale" : "Altra unità"}</strong><br>`;
         output += `📅 Anno: <strong>${anno}</strong><br>`;
-        output += `📈 Aliquota detrazione: <strong>${(aliquota * 100).toFixed(0)}%</strong>`;
+        output += `📈 Aliquota detrazione: <strong>${(aliquotaEffettiva * 100).toFixed(1)}%</strong>`;
     }
 
     document.getElementById("risultato").innerHTML = output;
 }
-</script>
-</body>
+</script></body>
 </html>
