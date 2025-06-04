@@ -1,152 +1,148 @@
 <!DOCTYPE html><html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcolo Detrazioni 2025–2027</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            background-color: white;
-            max-width: 700px;
-            margin: auto;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 15px;
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #0056b3;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .output {
-            margin-top: 20px;
-            font-size: 1.1em;
-            background: #eaf1fb;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        @media print {
-            button { display: none; }
-            input, select { border: none; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calcolo Detrazioni 2025–2027</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background-color: white;
+      max-width: 700px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: #0056b3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .output {
+      margin-top: 20px;
+      font-size: 1.1em;
+      background: #eaf1fb;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .infografica {
+      background-color: #d9ecff;
+      padding: 10px;
+      border-left: 6px solid #007acc;
+      margin-top: 20px;
+      border-radius: 5px;
+      font-size: 1.2em;
+    }
+    .header-print {
+      display: none;
+    }
+    @media print {
+      button, select, input, label, h2 {
+        display: none;
+      }
+      .header-print {
+        display: block;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
 <div class="container">
-    <h2>💰 Calcolo Detrazioni Edilizie 2025–2027</h2>
-    <label for="reddito">Reddito complessivo (€):</label>
-    <input type="number" id="reddito" min="0"><label for="figli">Numero di figli fiscalmente a carico:</label>
-<select id="figli">
-    <option value="0">0</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3 o più</option>
-</select>
+  <h2>💰 Calcolo Detrazioni Edilizie 2025–2027</h2>
+  <label for="reddito">Reddito complessivo (€):</label>
+  <input type="number" id="reddito" min="0"><label for="figli">Numero di figli fiscalmente a carico:</label> <select id="figli"> <option value="0">0</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3 o più</option> </select>
 
-<label for="disabilita">Presenza figli con disabilità?</label>
-<select id="disabilita">
-    <option value="no">No</option>
-    <option value="si">Sì</option>
-</select>
+<label for="disabilita">Presenza figli con disabilità?</label> <select id="disabilita"> <option value="no">No</option> <option value="si">Sì</option> </select>
 
-<label for="abitazione">Tipo di immobile:</label>
-<select id="abitazione">
-    <option value="principale">Abitazione principale</option>
-    <option value="secondaria">Altra unità immobiliare</option>
-</select>
+<label for="abitazione">Tipo di immobile:</label> <select id="abitazione"> <option value="principale">Abitazione principale</option> <option value="secondaria">Altra unità immobiliare</option> </select>
 
-<label for="tipologia">Tipologia detrazione:</label>
-<select id="tipologia">
-    <option value="bonusCasa">Bonus Casa</option>
-    <option value="ecobonus">Ecobonus</option>
-    <option value="barriere">Barriere architettoniche</option>
-</select>
+<label for="tipologia">Tipologia detrazione:</label> <select id="tipologia"> <option value="bonusCasa">Bonus Casa</option> <option value="ecobonus">Ecobonus</option> <option value="barriere">Barriere architettoniche</option> </select>
 
-<label for="anno">Anno sostenimento spesa:</label>
-<select id="anno">
-    <option value="2025">2025</option>
-    <option value="2026">2026</option>
-    <option value="2027">2027</option>
-</select>
+<label for="anno">Anno sostenimento spesa:</label> <select id="anno"> <option value="2025">2025</option> <option value="2026">2026</option> <option value="2027">2027</option> </select>
 
-<button onclick="calcolaDetrazione()">Calcola</button>
-<button onclick="window.print()">🖨️ Stampa o salva in PDF</button>
+<button onclick="calcolaDetrazione()">Calcola</button> <button onclick="window.print()">🖨️ Stampa o salva in PDF</button>
 
-<div class="output" id="risultato"></div>
-
+  <div class="header-print">
+    <h1>🧾 Risultato Calcolo Detrazioni</h1>
+    <p id="dataStampa"></p>
+  </div>  <div class="output" id="risultato"></div>
 </div><script>
 function calcolaDetrazione() {
-    const reddito = parseFloat(document.getElementById("reddito").value);
-    const figli = parseInt(document.getElementById("figli").value);
-    const disabilita = document.getElementById("disabilita").value;
-    const abitazione = document.getElementById("abitazione").value;
-    const tipologia = document.getElementById("tipologia").value;
-    const anno = parseInt(document.getElementById("anno").value);
+  const reddito = parseFloat(document.getElementById("reddito").value);
+  const figli = parseInt(document.getElementById("figli").value);
+  const disabilita = document.getElementById("disabilita").value;
+  const abitazione = document.getElementById("abitazione").value;
+  const tipologia = document.getElementById("tipologia").value;
+  const anno = parseInt(document.getElementById("anno").value);
+  let output = "";
+  let infografica = "";
 
-    let output = "";
-
-    if (reddito > 75000) {
-        let importoBase = reddito > 100000 ? 8000 : 14000;
-        let coeff = 0.5;
-        if (disabilita === "si" || figli >= 3) {
-            coeff = 1.0;
-        } else if (figli === 2) {
-            coeff = 0.85;
-        } else if (figli === 1) {
-            coeff = 0.7;
-        }
-        const massimo = importoBase * coeff;
-        output += `⚠️ Reddito superiore a 75.000 € → Massimo detraibile soggetto a limite: <strong>${massimo.toLocaleString()} €</strong><br>`;
-    } else {
-        output += `✅ Reddito sotto 75.000 € → Nessuna limitazione sul tetto detraibile<br>`;
+  if (reddito > 75000) {
+    let importoBase = reddito > 100000 ? 8000 : 14000;
+    let coeff = 0.5;
+    if (disabilita === "si" || figli >= 3) {
+      coeff = 1.0;
+    } else if (figli === 2) {
+      coeff = 0.85;
+    } else if (figli === 1) {
+      coeff = 0.7;
     }
+    const massimo = importoBase * coeff;
+    output += `⚠️ Reddito superiore a 75.000 € → Massimo detraibile soggetto a limite: <strong>${massimo.toLocaleString()} €</strong><br>`;
+  } else {
+    output += `✅ Reddito sotto 75.000 € → Nessuna limitazione sul tetto detraibile<br>`;
+  }
 
-    if (reddito > 120000 && reddito <= 240000) {
-        const coeffRiduzione = (240000 - reddito) / 120000;
-        const aliquotaArt15 = 0.19;
-        const ridotta = aliquotaArt15 * coeffRiduzione;
-        output += `<br>📌 <strong>Nota:</strong> Le detrazioni ex art. 15 TUIR (es. spese scolastiche, funebri, veterinarie) <u>non incluse in questa app</u> sono ridotte in base al reddito.<br>`;
-        output += `💡 Con un reddito di ${reddito.toLocaleString()} €, l'aliquota effettiva su quelle spese scende a: <strong>${(ridotta * 100).toFixed(2)}%</strong><br>`;
-    } else if (reddito > 240000) {
-        output += `<br>📌 <strong>Nota:</strong> Le detrazioni ex art. 15 TUIR (non edilizie) sono <strong>azzerate</strong> con reddito superiore a 240.000 €.`;
-    }
+  if (reddito > 120000 && reddito <= 240000) {
+    const coeffRiduzione = (240000 - reddito) / 120000;
+    const aliquotaArt15 = 0.19;
+    const ridotta = aliquotaArt15 * coeffRiduzione;
+    output += `<br>📌 <strong>Nota:</strong> Le detrazioni ex art. 15 TUIR (es. spese scolastiche, funebri, veterinarie) <u>non incluse in questa app</u> sono ridotte in base al reddito.<br>`;
+    output += `💡 Con un reddito di ${reddito.toLocaleString()} €, l'aliquota effettiva su quelle spese scende a: <strong>${(ridotta * 100).toFixed(2)}%</strong><br>`;
+  } else if (reddito > 240000) {
+    output += `<br>📌 <strong>Nota:</strong> Le detrazioni ex art. 15 TUIR (non edilizie) sono <strong>azzerate</strong> con reddito superiore a 240.000 €.`;
+  }
 
-    let aliquota = 0;
-    if (tipologia === "bonusCasa" || tipologia === "ecobonus") {
-        aliquota = (abitazione === "principale") ? ((anno === 2025) ? 0.50 : 0.36) : ((anno === 2025) ? 0.36 : 0.30);
-    } else if (tipologia === "barriere") {
-        aliquota = (anno === 2025) ? 0.75 : 0.00;
-    }
+  let aliquota = 0;
+  if (tipologia === "bonusCasa" || tipologia === "ecobonus") {
+    aliquota = (abitazione === "principale") ? ((anno === 2025) ? 0.50 : 0.36) : ((anno === 2025) ? 0.36 : 0.30);
+  } else if (tipologia === "barriere") {
+    aliquota = (anno === 2025) ? 0.75 : 0.00;
+  }
 
-    if (aliquota === 0.00) {
-        output += `🚫 Detrazione non disponibile per ${tipologia} nel ${anno}.`;
-    } else {
-        output += `🔧 Tipologia: <strong>${tipologia}</strong><br>`;
-        output += `🏠 Immobile: <strong>${abitazione === "principale" ? "Abitazione principale" : "Altra unità"}</strong><br>`;
-        output += `📅 Anno: <strong>${anno}</strong><br>`;
-        output += `📈 Aliquota detrazione: <strong>${(aliquota * 100).toFixed(1)}%</strong>`;
-    }
+  if (aliquota === 0.00) {
+    output += `<br>🚫 Detrazione non disponibile per ${tipologia} nel ${anno}.`;
+  } else {
+    infografica = `<div class='infografica'>📈 <strong>Aliquota detrazione:</strong> ${(aliquota * 100).toFixed(1)}%</div>`;
+    output += `<br>🔧 Tipologia: <strong>${tipologia}</strong><br>`;
+    output += `🏠 Immobile: <strong>${abitazione === "principale" ? "Abitazione principale" : "Altra unità"}</strong><br>`;
+    output += `📅 Anno: <strong>${anno}</strong><br>`;
+    output += infografica;
+  }
 
-    document.getElementById("risultato").innerHTML = output;
+  document.getElementById("risultato").innerHTML = output;
+  document.getElementById("dataStampa").innerText = `Data: ${new Date().toLocaleDateString()}`;
 }
 </script></body>
 </html>
