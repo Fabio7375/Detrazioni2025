@@ -79,7 +79,6 @@
         <option value="ecobonus">Ecobonus</option>
         <option value="sismabonus">Sisma Bonus</option>
         <option value="superbonus">Superbonus</option>
-        <option value="art15">Detrazione art. 15 TUIR (es. spese scolastiche, funebri...)</option>
     </select>
 
     <label for="anno">Anno sostenimento spesa:</label>
@@ -104,6 +103,7 @@ function calcolaDetrazione() {
 
     let output = "";
 
+    // CALCOLO LIMITE ART. 16-TER TUIR
     if (reddito > 75000) {
         let importoBase = reddito > 100000 ? 8000 : 14000;
         let coeff = 0.5;
@@ -120,34 +120,32 @@ function calcolaDetrazione() {
         output += `✅ Reddito sotto 75.000 € → Nessuna limitazione sul tetto detraibile<br>`;
     }
 
+    // MESSAGGIO RIDUZIONE PER DETRAZIONI ART. 15 TUIR
+    if (reddito > 120000 && reddito <= 240000) {
+        const coeffRiduzione = (240000 - reddito) / 120000;
+        const aliquotaArt15 = 0.19;
+        const ridotta = aliquotaArt15 * coeffRiduzione;
+        output += `<br>📌 <strong>Nota:</strong> Le detrazioni ex art. 15 TUIR (es. spese scolastiche, funebri, veterinarie) <u>non incluse in questa app</u> sono ridotte in base al reddito.<br>`;
+        output += `💡 Con un reddito di ${reddito.toLocaleString()} €, l'aliquota effettiva su quelle spese scende a: <strong>${(ridotta * 100).toFixed(2)}%</strong><br>`;
+    } else if (reddito > 240000) {
+        output += `<br>📌 <strong>Nota:</strong> Le detrazioni ex art. 15 TUIR (non edilizie) sono <strong>azzerate</strong> con reddito superiore a 240.000 €.`;
+    }
+
+    // CALCOLO ALIQUOTA DETRAZIONE BONUS EDILIZI
     let aliquota = 0;
     if (tipologia === "bonusCasa" || tipologia === "ecobonus" || tipologia === "sismabonus") {
         aliquota = (abitazione === "principale") ? ((anno === 2025) ? 0.50 : 0.36) : ((anno === 2025) ? 0.36 : 0.30);
     } else if (tipologia === "superbonus") {
         aliquota = (anno === 2025) ? 0.65 : 0.00;
-    } else if (tipologia === "art15") {
-        aliquota = 0.19;
-        if (reddito > 120000 && reddito <= 240000) {
-            const coeffRiduzione = (240000 - reddito) / 120000;
-            const aliquotaRidotta = aliquota * coeffRiduzione;
-            output += `<br>🔻 <strong>Attenzione:</strong> Per le detrazioni ex art. 15 TUIR, il tuo reddito complessivo rientra nella fascia soggetta a riduzione (oltre 120.000 €).<br>`;
-            output += `💸 Aliquota ridotta calcolata: <strong>${(aliquotaRidotta * 100).toFixed(2)}%</strong><br>`;
-        } else if (reddito > 240000) {
-            output += `<br>⛔ <strong>Attenzione:</strong> Nessuna detrazione spettante ex art. 15 TUIR con reddito superiore a 240.000 €.`;
-        } else {
-            output += `✅ Aliquota piena: <strong>${(aliquota * 100).toFixed(2)}%</strong>`;
-        }
     }
 
-    if (tipologia !== "art15") {
-        if (aliquota === 0.00) {
-            output += `🚫 Nessuna aliquota disponibile per Superbonus nel ${anno}.`;
-        } else {
-            output += `🔧 Tipologia: <strong>${tipologia}</strong><br>`;
-            output += `🏠 Immobile: <strong>${abitazione === "principale" ? "Abitazione principale" : "Altra unità"}</strong><br>`;
-            output += `📅 Anno: <strong>${anno}</strong><br>`;
-            output += `📈 Aliquota detrazione: <strong>${(aliquota * 100).toFixed(1)}%</strong>`;
-        }
+    if (aliquota === 0.00) {
+        output += `🚫 Nessuna aliquota disponibile per Superbonus nel ${anno}.`;
+    } else {
+        output += `🔧 Tipologia: <strong>${tipologia}</strong><br>`;
+        output += `🏠 Immobile: <strong>${abitazione === "principale" ? "Abitazione principale" : "Altra unità"}</strong><br>`;
+        output += `📅 Anno: <strong>${anno}</strong><br>`;
+        output += `📈 Aliquota detrazione: <strong>${(aliquota * 100).toFixed(1)}%</strong>`;
     }
 
     document.getElementById("risultato").innerHTML = output;
