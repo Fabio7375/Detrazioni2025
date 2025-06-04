@@ -1,8 +1,9 @@
-<!DOCTYPE html><html lang="it">
+<!DOCTYPE html>
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcolo Detrazioni 2025</title>
+    <title>Calcolo Detrazioni 2025–2027</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,7 +13,7 @@
         }
         .container {
             background-color: white;
-            max-width: 600px;
+            max-width: 700px;
             margin: auto;
             padding: 30px;
             border-radius: 10px;
@@ -48,56 +49,99 @@
 </head>
 <body>
 <div class="container">
-    <h2>💰 Calcolo Massimale Detraibile 2025</h2>
+    <h2>💰 Calcolo Detrazioni Edilizie 2025–2027</h2>
     <label for="reddito">Reddito complessivo (€):</label>
-    <input type="number" id="reddito" min="0"><label for="figli">Numero di figli fiscalmente a carico:</label>
-<select id="figli">
-    <option value="0">0</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3 o più</option>
-</select>
+    <input type="number" id="reddito" min="0">
 
-<label for="disabilita">Presenza figli con disabilità?</label>
-<select id="disabilita">
-    <option value="no">No</option>
-    <option value="si">Sì</option>
-</select>
+    <label for="figli">Numero di figli fiscalmente a carico:</label>
+    <select id="figli">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3 o più</option>
+    </select>
 
-<button onclick="calcolaLimite()">Calcola</button>
-<div class="output" id="risultato"></div>
+    <label for="disabilita">Presenza figli con disabilità?</label>
+    <select id="disabilita">
+        <option value="no">No</option>
+        <option value="si">Sì</option>
+    </select>
 
-</div><script>
-function calcolaLimite() {
+    <label for="abitazione">Tipo di immobile:</label>
+    <select id="abitazione">
+        <option value="principale">Abitazione principale</option>
+        <option value="secondaria">Altra unità immobiliare</option>
+    </select>
+
+    <label for="tipologia">Tipologia detrazione:</label>
+    <select id="tipologia">
+        <option value="bonusCasa">Bonus Casa</option>
+        <option value="ecobonus">Ecobonus</option>
+        <option value="sismabonus">Sisma Bonus</option>
+        <option value="superbonus">Superbonus</option>
+    </select>
+
+    <label for="anno">Anno sostenimento spesa:</label>
+    <select id="anno">
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+        <option value="2027">2027</option>
+    </select>
+
+    <button onclick="calcolaDetrazione()">Calcola</button>
+    <div class="output" id="risultato"></div>
+</div>
+
+<script>
+function calcolaDetrazione() {
     const reddito = parseFloat(document.getElementById("reddito").value);
     const figli = parseInt(document.getElementById("figli").value);
     const disabilita = document.getElementById("disabilita").value;
+    const abitazione = document.getElementById("abitazione").value;
+    const tipologia = document.getElementById("tipologia").value;
+    const anno = parseInt(document.getElementById("anno").value);
 
-    let importoBase = 0;
-    if (reddito > 100000) {
-        importoBase = 8000;
-    } else if (reddito > 75000) {
-        importoBase = 14000;
+    let output = "";
+
+    if (reddito > 75000) {
+        let importoBase = reddito > 100000 ? 8000 : 14000;
+        let coeff = 0.5;
+        if (disabilita === "si" || figli >= 3) {
+            coeff = 1.0;
+        } else if (figli === 2) {
+            coeff = 0.85;
+        } else if (figli === 1) {
+            coeff = 0.7;
+        }
+        const massimo = importoBase * coeff;
+        output += `⚠️ Reddito superiore a 75.000 € → Massimo detraibile soggetto a limite: <strong>${massimo.toLocaleString()} €</strong><br>`;
     } else {
-        document.getElementById("risultato").innerHTML = "✅ Nessuna limitazione: reddito sotto 75.000 euro.";
-        return;
+        output += `✅ Reddito sotto 75.000 € → Nessuna limitazione sul tetto detraibile<br>`;
     }
 
-    let coeff = 0.5;
-    if (disabilita === "si" || figli >= 3) {
-        coeff = 1.0;
-    } else if (figli === 2) {
-        coeff = 0.85;
-    } else if (figli === 1) {
-        coeff = 0.7;
+    // Calcolo aliquota base
+    let aliquota = 0;
+    if (tipologia === "bonusCasa" || tipologia === "ecobonus" || tipologia === "sismabonus") {
+        if (abitazione === "principale") {
+            aliquota = (anno === 2025) ? 0.50 : 0.36;
+        } else {
+            aliquota = (anno === 2025) ? 0.36 : 0.30;
+        }
+    } else if (tipologia === "superbonus") {
+        aliquota = (anno === 2025) ? 0.65 : 0.00;
     }
 
-    const massimo = importoBase * coeff;
-    document.getElementById("risultato").innerHTML = `
-        🔢 Reddito: <strong>${reddito.toLocaleString()} €</strong><br>
-        👶 Figli: <strong>${figli}</strong> ${disabilita === "si" ? "+ disabilità" : ""}<br>
-        🧮 Limite massimo detraibile: <strong>${massimo.toLocaleString()} €</strong>
-    `;
+    if (aliquota === 0.00) {
+        output += `🚫 Nessuna aliquota disponibile per Superbonus nel ${anno}.`;
+    } else {
+        output += `🔧 Tipologia: <strong>${tipologia}</strong><br>`;
+        output += `🏠 Immobile: <strong>${abitazione === "principale" ? "Abitazione principale" : "Altra unità"}</strong><br>`;
+        output += `📅 Anno: <strong>${anno}</strong><br>`;
+        output += `📈 Aliquota detrazione: <strong>${(aliquota * 100).toFixed(0)}%</strong>`;
+    }
+
+    document.getElementById("risultato").innerHTML = output;
 }
-</script></body>
+</script>
+</body>
 </html>
